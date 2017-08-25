@@ -11,7 +11,8 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
+#import <React/RCTEventEmitter.h>
 
-@interface DeviceBattery : NSObject<RCTBridgeModule>
+@interface DeviceBattery : RCTEventEmitter <RCTBridgeModule>
 
 @end

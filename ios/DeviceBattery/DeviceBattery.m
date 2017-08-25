@@ -9,6 +9,10 @@
 #import "DeviceBattery.h"
 
 @implementation DeviceBattery
+{
+    bool hasListeners;
+}
+
 @synthesize bridge = _bridge;
 
 - (instancetype)init
@@ -28,8 +32,22 @@
     return self;
 }
 
+// will be called when this module's first listener is added.
+-(void)startObserving {
+    hasListeners = YES;    
+}
+
+// will be called when this module's last listener is removed, or on dealloc.
+-(void)stopObserving {
+    hasListeners = NO;
+}
 
 RCT_EXPORT_MODULE();
+
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[@"batteryChange"];
+}
 
 RCT_REMAP_METHOD(isCharging,
                  isChargingResolver:(RCTPromiseResolveBlock)resolve
@@ -57,7 +75,10 @@ RCT_REMAP_METHOD(getBatteryLevel,
     
     [payload setObject:[NSNumber numberWithBool:isCharging] forKey:@"charging"];
     [payload setObject:[NSNumber numberWithFloat:batteryLevel] forKey:@"level"];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"batteryChange" body:payload];
+    
+    if (hasListeners) { // only send events if someone is listening
+        [self sendEventWithName:@"batteryChange" body:payload];
+    }
 }
 
 - (void)dealloc
