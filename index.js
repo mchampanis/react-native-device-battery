@@ -6,7 +6,6 @@ var deviceBatteryEmitter = new NativeEventEmitter(DeviceBattery);
 export default {
   isCharging: DeviceBattery.isCharging,
   getBatteryLevel: DeviceBattery.getBatteryLevel,
-
   addListener: callback => {
     return deviceBatteryEmitter.addListener("batteryChange", callback);
   },

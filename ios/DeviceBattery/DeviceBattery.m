@@ -19,7 +19,7 @@
 {
     if((self = [super init])) {
         [[UIDevice currentDevice] setBatteryMonitoringEnabled:YES];
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(batteryLevelChanged:)
                                                      name:UIDeviceBatteryLevelDidChangeNotification
@@ -34,7 +34,7 @@
 
 // will be called when this module's first listener is added.
 -(void)startObserving {
-    hasListeners = YES;    
+    hasListeners = YES;
 }
 
 // will be called when this module's last listener is removed, or on dealloc.
@@ -72,10 +72,10 @@ RCT_REMAP_METHOD(getBatteryLevel,
     NSMutableDictionary* payload = [NSMutableDictionary dictionaryWithCapacity:2];
     bool isCharging = batteryState == UIDeviceBatteryStateCharging;
     float batteryLevel = [UIDevice currentDevice].batteryLevel;
-    
+
     [payload setObject:[NSNumber numberWithBool:isCharging] forKey:@"charging"];
     [payload setObject:[NSNumber numberWithFloat:batteryLevel] forKey:@"level"];
-    
+
     if (hasListeners) { // only send events if someone is listening
         [self sendEventWithName:@"batteryChange" body:payload];
     }
