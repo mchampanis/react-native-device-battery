@@ -7,11 +7,13 @@ Get and observe the devices battery level and charging status
 
 Install the node module
 ```
-npm install react-native-device-battery --save
+npm install mchampanis/react-native-device-battery#1.0.1 --save
 ```
 
-### iOS
-TBD
+### iOS (quick)
+```
+react-native link
+```
 
 ### Android
 Add the following to `android/settings.grade`
